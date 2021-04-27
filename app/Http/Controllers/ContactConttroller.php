@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Models\Contact;
-use GrahamCampbell\ResultType\Success;
+use App\Http\Requests\ContactRequest;
 
 class ContactConttroller extends Controller
 {
@@ -25,7 +26,7 @@ class ContactConttroller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ContactRequest $request)
     {
         $contact = new Contact([
             'name' => $request->input('name'),
@@ -34,7 +35,7 @@ class ContactConttroller extends Controller
         ]);
         $contact->save();
 
-        return response()->json(['success' => true]);
+        return response()->json($contact);
     }
 
     /**
@@ -56,12 +57,12 @@ class ContactConttroller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ContactRequest $request, $id)
     {
         $contact = Contact::find($id);
         $contact->update($request->all());
 
-        return response()->json(['success' => true]);
+        return response()->json($contact);
     }
 
     /**
